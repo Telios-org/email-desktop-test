@@ -1,0 +1,111 @@
+{
+  "translation": {
+    "global": {
+      "email": "Email",
+      "masterPass": "Master Password",
+      "recoveryEmail": "Recovery Email",
+      "login": "Login",
+      "register": "Register",
+      "code": "Code",
+      "edit": "Edit",
+      "delete": "Delete",
+      "submit": "Submit",
+      "create": "Create",
+      "cancel": "Cancel",
+      "update": "Update",
+      "updateFolder": "Update Folder",
+      "createFolder": "Create a New Folder"
+    },
+    "firstScreen": {
+      "register": "Create Your Account"
+    },
+    "login": {
+      "text": "Welcome back! Please enter your master password to unlock your account.",
+      "register": "Register Instead",
+      "incorrectPass": "Your password is invalid."
+    },
+    "register": {
+      "steps": {
+        "0": {
+          "header": "Beta Access",
+          "description": "Enter your Beta Access Code. If you don’t have a beta access code please join our waitlist by visiting our website. We’ll notify you with a beta access code via email as soon as we’re ready for you."
+        },
+        "1": {
+          "header": "Beta Consent",
+          "description": ""
+        },
+        "2": {
+          "header": "Create Account",
+          "description": "Choose your email. This can be what your mama calls you or your friends or a completely made up string. Up to you, that's really none of our business."
+        },
+        "3": {
+          "header": "Master Password",
+          "description": ""
+        },
+        "4": {
+          "header": "Recovery Email",
+          "description": "Soooo, you spilled coffee on your computer and now it doesn't work?! This email address can be used to retrieve your encrypted data (if you opted to store your encrypted data on our cloud backup)."
+        },
+        "5": {
+          "header": "Recovery Phrase",
+          "description": "In the event you lose your password or device, this phrase can be used to restore your account. Be sure to memorize this phrase or keep it somewhere secure like a under your pillow."
+        }
+      },
+      "confirmPass": "Confirm Password",
+      "login": "Login Instead",
+      "passTitle": "Create a Master Password",
+      "passInstructions": "This password will be the only password you’ll ever need to enter any Telios services. Upon creation of your password a private encryption key will be generated on your local computer and be known only to you.",
+      "strength": "Strength",
+      "veryWeak": "Very Weak",
+      "weak": "Weak",
+      "strong": "Strong",
+      "strongDesc": "Not bad, but you can do better...",
+      "veryStrong": "Very Strong",
+      "veryStrongDesc": "This is a very unguessable password!",
+      "timeDescription": "Is roughly how long it would take to crack this password at 10k guesses per second",
+      "tooWeakErr": "This password is too weak to safely use.",
+      "emailNotAvailable": "This email is not available.",
+      "betaCodeNotValid": "Invalid Beta Access Code.",
+      "connecting": "Connecting to peer network..."
+    },
+    "mailbox": {
+      "newMsg": "New Message",
+      "inbox": "Inbox",
+      "drafts": "Drafts",
+      "sent": "Sent",
+      "spam": "Spam",
+      "trash": "Trash",
+      "noMessages": "No Messages",
+      "folders": "Folders",
+      "folderName": "Folder Name",
+      "syncingInProgress": "Syncing new messages...",
+      "aliases": "Aliases",
+      "accountNamespace": "Account Namespace"
+    },
+    "aliasing": {
+      "ns_choose": "Choose your alias namespace",
+      "alias_management": "Alias Management",
+      "alias_registration": "Create New Alias"
+    },
+    "messageToolbar": {
+      "saveDraft": "Save & Close",
+      "openWindow": "Pop Out",
+      "discardDraft": "Discard",
+      "delete": "Delete",
+      "move": "Move",
+      "unreadToggle": "Mark Unread",
+      "refresh": "Sync"
+    },
+    "form": {
+      "emailRequired": "Email is required.",
+      "recoveryRequired": "Recovery Email is required.",
+      "recoveryEmailInvalid": "Recovery email is invalid.",
+      "masterPassRequired": "Master password is required.",
+      "weakPass": "Password is too weak.",
+      "passMismatch": "Passwords do not match.",
+      "confirmRequired": "Confirm password is required.",
+      "betaCodeRequired": "Access Code Required to Register",
+      "betaConsent": "Consent is required for the Beta"
+    }
+  }
+}
