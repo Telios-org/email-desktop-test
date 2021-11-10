@@ -1,7 +1,7 @@
 {
   "name": "Telios",
   "productName": "Telios",
-  "version": "1.0.2-beta",
+  "version": "1.0.3-beta",
   "description": "An offline-capabale e2e encrypted email service that uses p2p technology for sending and receiving emails.",
   "scripts": {
     "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
@@ -18,7 +18,7 @@
     "lint-styles-fix": "yarn --silent lint-styles --fix; exit 0",
     "package": "yarn build && electron-builder build --publish never",
     "package-all": "yarn build && electron-builder build -mwl",
-    "package-ci": "yarn postinstall && yarn build && electron-builder --publish always",
+    "package-ci": "yarn postinstall && yarn build && electron-builder --publish never",
     "package-mac": "yarn build && electron-builder build --mac",
     "package-linux": "yarn build && electron-builder build --linux",
     "package-win": "yarn build && electron-builder build --win --x64",
@@ -114,10 +114,6 @@
     "directories": {
       "buildResources": "resources",
       "output": "release"
-    },
-    "publish": {
-      "provider": "generic",
-      "url": "https://downloads.telios.io/desktop/"
     }
   },
   "repository": {
