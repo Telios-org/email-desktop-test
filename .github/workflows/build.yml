@@ -2,6 +2,11 @@ name: Build/release
 
 on: push
 
+env:
+  # Use docker.io for Docker Hub if empty
+  REGISTRY: registry.gitlab.com
+  DOCKER_IMAGE: telios2/telios-devops/ansible/prd:latest
+
 jobs:
   release:
     runs-on: ${{ matrix.os }}
@@ -25,10 +30,20 @@ jobs:
         uses: samuelmeuli/action-electron-builder@v1
         with:
           github_token: ${{ secrets.github_token }}
-          release: false
 
       - name: check for build artifacts
         shell: bash
         run: |
-          ls -la
-          ls -la build/
+          ls -la release/
+
+      - name: Log into registry ${{ env.REGISTRY }}
+        uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: check for build artifacts
+        shell: bash
+        run: |
+          docker pull ${{ env.REGISTRY }}/{{ env.DOCKER_IMAGE }}
