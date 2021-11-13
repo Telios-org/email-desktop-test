@@ -20,13 +20,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 16
-          
-      - name: Yarn install and build
-        shell: bash
-        run: |
-          yarn install
-          yarn build
-          
+                   
       - name: Build/release Electron app
         uses: samuelmeuli/action-electron-builder@v1
         with:
@@ -37,3 +31,9 @@ jobs:
           # If the commit is tagged with a version (e.g. "v1.0.0"),
           # release the app after building
           release: true
+
+      - name: check for build artifacts
+        shell: bash
+        run: |
+          ls -la
+          ls -la build/
