@@ -58,4 +58,4 @@ jobs:
       - name: check for build artifacts
         shell: bash
         run: |
-          docker pull ${{ env.REGISTRY }}/{{ env.DOCKER_IMAGE }}
+          docker pull ${{ env.REGISTRY }}/${{ env.DOCKER_IMAGE }}
