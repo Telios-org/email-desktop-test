@@ -74,6 +74,7 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: ${{ matrix.os }}
+          path: release/
 
       - name: Check for artifacts
         shell: bash
