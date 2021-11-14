@@ -52,10 +52,14 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: package_json
-          path: |
-            package.json
-            app/package.json
-            
+          path: ./
+
+      - name: check artifacts
+        shell: bash
+        run: |
+          ls -la 
+          cat package.json
+
       - name: Install Node.js, NPM and Yarn
         uses: actions/setup-node@v1
         with:
