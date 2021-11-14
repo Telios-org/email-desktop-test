@@ -16,7 +16,7 @@ on:
 #        required: true
 jobs:
   build:
-    runs-on ${{ inputs.os_type }}
+    runs-on: ${{ inputs.os_type }}
 #    runs-on: ${{ matrix.os }}
     needs: set_version
 #TODO Don't use the matrix build so that succsful builds can be published without waiting, instead make two additional files for common code of the jobs and make 6 separate jobs
