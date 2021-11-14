@@ -2,11 +2,6 @@ name: Build/release
 
 on: push
 
-env:
-  # Use docker.io for Docker Hub if empty
-  REGISTRY: registry.gitlab.com
-  DOCKER_IMAGE: telios2/telios-devops/ansible/prd:latest
-
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -26,10 +21,10 @@ jobs:
         with:
           node-version: 16
 
-#      - name: Yarn install and build
-#        shell: bash
-#        run: |
-#          yarn install
+      - name: Yarn install and build
+        shell: bash
+        run: |
+          yarn install
 #          yarn build
 
       - name: Build/release Electron app
@@ -70,19 +65,8 @@ jobs:
           name: ${{ matrix.os }}
           path: release/
 
-#      - name: Log into registry ${{ env.REGISTRY }}
-#        uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
-#        with:
-#          registry: ${{ env.REGISTRY }}
-#          username: ${{ secrets.REGISTRY_USERNAME }}
-#          password: ${{ secrets.REGISTRY_PASSWORD }}
-
       - name: ansible publish
         shell: bash
         run: |
           ls -la
           ansible-playbook playbooks/site.yml --tags none
-
-
-      #docker pull ${{ env.REGISTRY }}/${{ env.DOCKER_IMAGE }}
-      #docker run -v ${PWD}:${PWD} -w ${PWD} --entrypoint ansible-playbook ${{ env.REGISTRY }}/${{ env.DOCKER_IMAGE }} playbooks/site.yml --tags none
