@@ -48,26 +48,9 @@ jobs:
           name: ${{ matrix.os }}
           path: release/
 
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Log into registry ${{ env.REGISTRY }}
-        uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ secrets.REGISTRY_USERNAME }}
-          password: ${{ secrets.REGISTRY_PASSWORD }}
-
-      - name: get ansible
-        shell: bash
-        run: |
-          docker pull ${{ env.REGISTRY }}/${{ env.DOCKER_IMAGE }}
-          echo "docker run -it -v ${PWD}:${PWD} -w ${PWD} --entrypoint /bin/bash ${{ env.REGISTRY }}/${{ env.DOCKER_IMAGE }} -c ls -la"
-          docker run -t -v ${PWD}:${PWD} -w ${PWD} --entrypoint /bin/bash ${{ env.REGISTRY }}/${{ env.DOCKER_IMAGE }} -c "ls -la"
-
   publish:
     container:
-      image: ${{ env.REGISTRY }}/${{ env.DOCKER_IMAGE }}
+      image: registry.gitlab.com/telios2/telios-devops/ansible/prd:latest
       credentials:
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
