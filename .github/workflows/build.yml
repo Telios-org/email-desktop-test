@@ -57,8 +57,7 @@ jobs:
       - name: check artifacts
         shell: bash
         run: |
-          ls -la 
-          cat package.json
+          cat app/package.json
 
       - name: Install Node.js, NPM and Yarn
         uses: actions/setup-node@v1
@@ -102,7 +101,12 @@ jobs:
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v1
-        
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: package_json
+          path: ./
+          
       - uses: actions/download-artifact@v2
         with:
           name: ${{ matrix.os }}
