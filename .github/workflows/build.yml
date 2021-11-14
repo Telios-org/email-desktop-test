@@ -15,7 +15,7 @@ on:
       SPACES_SECRET_KEY:
         required: true
       REGISTRY_USERNAME:
-        re quired: true
+        required: true
       REGISTRY_PASSWORD:
         required: true
 jobs:
