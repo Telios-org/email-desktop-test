@@ -62,8 +62,8 @@ jobs:
         shell: bash
         run: |
           docker pull ${{ env.REGISTRY }}/${{ env.DOCKER_IMAGE }}
-          echo "docker run -v ${PWD}:${PWD} -w ${PWD} --entrypoint /bin/bash ${{ env.REGISTRY }}/${{ env.DOCKER_IMAGE }} ls -la"
-          docker run -v ${PWD}:${PWD} -w ${PWD} --entrypoint /bin/bash ${{ env.REGISTRY }}/${{ env.DOCKER_IMAGE }} ls -la
+          echo "docker run -it -v ${PWD}:${PWD} -w ${PWD} --entrypoint /bin/bash ${{ env.REGISTRY }}/${{ env.DOCKER_IMAGE }} -c ls -la"
+          docker run -it -v ${PWD}:${PWD} -w ${PWD} --entrypoint /bin/bash ${{ env.REGISTRY }}/${{ env.DOCKER_IMAGE }} -c "ls -la"
 
   publish:
     runs-on: ubuntu-latest
@@ -91,6 +91,6 @@ jobs:
       - name: get ansible
         shell: bash
         run: |
+          ls -la
           docker pull ${{ env.REGISTRY }}/${{ env.DOCKER_IMAGE }}
-          docker run -v ${PWD}:${PWD} -w ${PWD} --entrypoint /bin/bash ${{ env.REGISTRY }}/${{ env.DOCKER_IMAGE }} ls -la
           docker run -v ${PWD}:${PWD} -w ${PWD} --entrypoint ansible-playbook ${{ env.REGISTRY }}/${{ env.DOCKER_IMAGE }} playbooks/site.yml --tags none
