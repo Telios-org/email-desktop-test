@@ -63,7 +63,7 @@ jobs:
         run: |
           docker pull ${{ env.REGISTRY }}/${{ env.DOCKER_IMAGE }}
           echo "docker run -it -v ${PWD}:${PWD} -w ${PWD} --entrypoint /bin/bash ${{ env.REGISTRY }}/${{ env.DOCKER_IMAGE }} -c ls -la"
-          docker run -it -v ${PWD}:${PWD} -w ${PWD} --entrypoint /bin/bash ${{ env.REGISTRY }}/${{ env.DOCKER_IMAGE }} -c "ls -la"
+          docker run -t -v ${PWD}:${PWD} -w ${PWD} --entrypoint /bin/bash ${{ env.REGISTRY }}/${{ env.DOCKER_IMAGE }} -c "ls -la"
 
   publish:
     runs-on: ubuntu-latest
