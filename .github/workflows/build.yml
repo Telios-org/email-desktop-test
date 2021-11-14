@@ -48,6 +48,15 @@ jobs:
           name: ${{ matrix.os }}
           path: release/
 
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: experiment
+        shell: bash
+        run: |
+          echo "1: ${PWD}"
+          echo "2: ${{ env.PWD }}"
+
   publish:
     runs-on: ubuntu-latest
     needs: build
