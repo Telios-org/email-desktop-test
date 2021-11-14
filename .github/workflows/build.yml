@@ -9,20 +9,14 @@ on:
       os_type:
         required: true
         type: string
-#    secrets:
-#      SPACES_ACCESS_KEY:
-#        required: true
-#      SPACES_SECRET_KEY
-#        required: true
+    secrets:
+      SPACES_ACCESS_KEY:
+        required: true
+      SPACES_SECRET_KEY:
+        required: true
 jobs:
   build:
     runs-on: ${{ inputs.os_type }}
-#    runs-on: ${{ matrix.os }}
-    #needs: set_version
-#TODO Don't use the matrix build so that succsful builds can be published without waiting, instead make two additional files for common code of the jobs and make 6 separate jobs
-#    strategy:
-#      matrix:
-#        os: [macos-latest, ubuntu-latest, windows-latest]
 
     steps:
       - name: Check out Git repository
@@ -45,11 +39,6 @@ jobs:
         with:
           node-version: 16
 
-#      - name: Yarn install and build
-#        shell: bash
-#       run: |
-#         yarn install
-
 #TODO will periodically fail to build, try to cache the node_modules / binaries to avoid recompiles
       - name: Build/release Electron app
         uses: samuelmeuli/action-electron-builder@v1
@@ -59,7 +48,7 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: ${{ inputs.build_type }} #${{ matrix.os }}
+          name: ${{ inputs.build_type }}
           path: release/
 
   publish:
@@ -72,11 +61,7 @@ jobs:
         password: ${{ secrets.REGISTRY_PASSWORD }}
 
     needs: build
-
-    strategy:
-      matrix:   
-        os: [macos-latest, ubuntu-latest, windows-latest]
-      
+    
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v1
@@ -88,7 +73,7 @@ jobs:
 
       - uses: actions/download-artifact@v2
         with:
-          name: ${{ inputs.build_type }} #${{ matrix.os }}
+          name: ${{ inputs.build_type }}
           path: release/
 
       - name: ansible publish
@@ -96,4 +81,5 @@ jobs:
         run: |
           ls -la release/
           echo ${{ inputs.build_type }}
-          ansible-playbook playbooks/site.yml --tags none
+          ansible-playbook playbooks/site.yml --tags none 
+        #update,upload,${{ inputs.build_type }}

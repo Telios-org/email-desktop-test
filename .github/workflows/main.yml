@@ -41,6 +41,9 @@ jobs:
     with:
       build_type: mac
       os_type: macos-latest
+    secrets:
+      SPACES_ACCESS_KEY: ${{ secrets.SPACES_ACCESS_KEY }}
+      SPACES_SECRET_KEY: ${{ secrets.SPACES_SECRET_KEY }}
 
   build-windows:
     uses: telios-org/email-desktop-test/.github/workflows/build.yml@beta
@@ -48,6 +51,9 @@ jobs:
     with:
       build_type: win
       os_type: windows-latest
+    secrets:
+      SPACES_ACCESS_KEY: ${{ secrets.SPACES_ACCESS_KEY }}
+      SPACES_SECRET_KEY: ${{ secrets.SPACES_SECRET_KEY }}
 
   build-linux:
     uses: telios-org/email-desktop-test/.github/workflows/build.yml@beta
@@ -55,3 +61,6 @@ jobs:
     with:
       build_type: linux
       os_type: ubuntu-latest
+    secrets:
+      SPACES_ACCESS_KEY: ${{ secrets.SPACES_ACCESS_KEY }}
+      SPACES_SECRET_KEY: ${{ secrets.SPACES_SECRET_KEY }}
