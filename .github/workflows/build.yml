@@ -26,11 +26,11 @@ jobs:
         with:
           node-version: 16
 
-      - name: Yarn install and build
-        shell: bash
-        run: |
-          yarn install
-          yarn build
+#      - name: Yarn install and build
+#        shell: bash
+#        run: |
+#          yarn install
+#          yarn build
 
       - name: Build/release Electron app
         uses: samuelmeuli/action-electron-builder@v1
@@ -59,6 +59,11 @@ jobs:
         os: [macos-latest, ubuntu-latest, windows-latest]
       
     steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: ${{ matrix.os }}
+          path: release/
+
       - name: Log into registry ${{ env.REGISTRY }}
         uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
         with:
@@ -70,13 +75,4 @@ jobs:
         shell: bash
         run: |
           docker pull ${{ env.REGISTRY }}/${{ env.DOCKER_IMAGE }}
-      
-      - uses: actions/download-artifact@v2
-        with:
-          name: ${{ matrix.os }}
-          path: release/
-
-      - name: Check for artifacts
-        shell: bash
-        run: |
-          ls -la release/
+          docker run -v ${PWD}:${PWD} -w ${PWD} --entrypoint ansible-playbook ${{ env.REGISTRY }}/${{ env.DOCKER_IMAGE }} playbooks/site.yml --tags none
