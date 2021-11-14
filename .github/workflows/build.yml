@@ -43,10 +43,19 @@ jobs:
           # release the app after building
           release: false
 
-      - name: check for build artifacts
-        shell: bash
-        run: |
-          ls -la release/
+      - uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.os }}
+          path: release/
+
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      platform: ${{ matrix.os }}
+
+    strategy:
+      matrix:   
+        os: [macos-latest, ubuntu-latest, windows-latest]
 
       - name: Log into registry ${{ env.REGISTRY }}
         uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
@@ -59,3 +68,12 @@ jobs:
         shell: bash
         run: |
           docker pull ${{ env.REGISTRY }}/${{ env.DOCKER_IMAGE }}
+      
+      - uses: actions/download-artifact@v2
+        with:
+          name: ${{ matrix.os }}
+
+      - name: Check for artifacts
+        shell: bash
+        run: |
+          ls -la release/
