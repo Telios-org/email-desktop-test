@@ -49,6 +49,7 @@ jobs:
           path: release/
 
   publish:
+    runs-on: ubuntu-latest
     container:
       image: registry.gitlab.com/telios2/telios-devops/ansible/prd:latest
       credentials:
