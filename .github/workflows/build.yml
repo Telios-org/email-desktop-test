@@ -3,6 +3,33 @@ name: Build/release
 on: push
 
 jobs:
+  set_version:
+    runs-on: ubuntu-latest
+    container:
+      image: registry.gitlab.com/telios2/telios-devops/ansible/prd:latest
+      credentials:
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+    steps:
+      - name: set version
+        shell: bash
+        run: |
+          if [ "${{ github.ref }}" == "refs/heads/beta" ]
+          then
+            CHANNEL="-beta"
+          fi
+          echo "${{ github.run_number }}${CHANNEL}"
+          sed -i "s/\(.version.:..[0-9]*.[0-9]*.\)[0-9]*/\1${{ github.run_number }}${CHANNEL}/g" package.json
+          sed -i "s/\(.version.:..[0-9]*.[0-9]*.\)[0-9]*/\1${{ github.run_number }}${CHANNEL}/g" app/package.json
+          cat package.json | grep "version.:"
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: package_json
+          path: 
+            - package.json
+            - app/package.json
+
   build:
     runs-on: ${{ matrix.os }}
 #TODO Don't use the matrix build so that succsful builds can be published without waiting, instead make two additional files for common code of the jobs and make 6 separate jobs
@@ -16,22 +43,17 @@ jobs:
         with:
           submodules: true
 
+      - uses: actions/download-artifact@v2
+        with:
+          name: package_json
+          path: 
+            - package.json
+            - app/package.json
+            
       - name: Install Node.js, NPM and Yarn
         uses: actions/setup-node@v1
         with:
           node-version: 16
-
-      - name: set version
-        shell: bash
-        run: |
-          if [ "${{ github.ref }}" == "refs/heads/beta" ]
-          then
-            CHANNEL="-beta"
-          fi
-          echo "sed -i "s/\(.version.:..[0-9]*.[0-9]*.\)[0-9]*/\1${{ github.run_number }}${CHANNEL}/g" package.json"
-          sed -i "s/\(.version.:..[0-9]*.[0-9]*.\)[0-9]*/\1${{ github.run_number }}${CHANNEL}/g" package.json
-          sed -i "s/\(.version.:..[0-9]*.[0-9]*.\)[0-9]*/\1${{ github.run_number }}${CHANNEL}/g" app/package.json
-          cat package.json | grep "version.:"
 
 #      - name: Yarn install and build
 #        shell: bash
