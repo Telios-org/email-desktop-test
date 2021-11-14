@@ -44,6 +44,8 @@ jobs:
     secrets:
       SPACES_ACCESS_KEY: ${{ secrets.SPACES_ACCESS_KEY }}
       SPACES_SECRET_KEY: ${{ secrets.SPACES_SECRET_KEY }}
+      REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
+      REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
 
   build-windows:
     uses: telios-org/email-desktop-test/.github/workflows/build.yml@beta
@@ -54,6 +56,8 @@ jobs:
     secrets:
       SPACES_ACCESS_KEY: ${{ secrets.SPACES_ACCESS_KEY }}
       SPACES_SECRET_KEY: ${{ secrets.SPACES_SECRET_KEY }}
+      REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
+      REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
 
   build-linux:
     uses: telios-org/email-desktop-test/.github/workflows/build.yml@beta
@@ -64,3 +68,5 @@ jobs:
     secrets:
       SPACES_ACCESS_KEY: ${{ secrets.SPACES_ACCESS_KEY }}
       SPACES_SECRET_KEY: ${{ secrets.SPACES_SECRET_KEY }}
+      REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
+      REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
