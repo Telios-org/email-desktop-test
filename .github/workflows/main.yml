@@ -36,19 +36,19 @@ jobs:
             app/package.json
 
   build-osx:
-    uses: telios-org/email-desktop-test/.github/workflows/build.yml
+    uses: telios-org/email-desktop-test/.github/workflows/build.yml@beta
     with:
       build_type: mac
       os_type: macos-latest
 
   build-windows:
-    uses: telios-org/email-desktop-test/.github/workflows/build.yml
+    uses: telios-org/email-desktop-test/.github/workflows/build.yml@beta
     with:
       build_type: win
       os_type: windows-latest
 
   build-linux:
-    uses: telios-org/email-desktop-test/.github/workflows/build.yml
+    uses: telios-org/email-desktop-test/.github/workflows/build.yml@beta
     with:
       build_type: linux
       os_type: ubuntu-latest
