@@ -21,6 +21,18 @@ jobs:
         with:
           node-version: 16
 
+      - name: set version
+        shell: bash
+        run: |
+          if [ ${{ github.ref }} == "beta" ]
+          then
+            CHANNEL="-beta"
+          fi
+          sed -i "s/\(.version.:..[0-9]*.[0-9]*.\)[0-9]*/\1${{ github.run_number }}${CHANNEL}/g" package.json
+          sed -i "s/\(.version.:..[0-9]*.[0-9]*.\)[0-9]*/\1${{ github.run_number }}${CHANNEL}/g" app/package.json
+          cat package.json | grep version.:
+
+
 #TODO will periodically fail to build, try to cache the node_modules / binaries to avoid recompiles
       - name: Build/release Electron app
         uses: samuelmeuli/action-electron-builder@v1
@@ -34,6 +46,7 @@ jobs:
           path: release/
 
   publish:
+    if: github.ref == 'refs/heads/master' ||  github.ref == 'refs/heads/beta'
     runs-on: ubuntu-latest
     container:
       image: registry.gitlab.com/telios2/telios-devops/ansible/prd:latest
@@ -61,5 +74,5 @@ jobs:
       - name: ansible publish
         shell: bash
         run: |
-          ls -la
+          ls -la release/
           ansible-playbook playbooks/site.yml --tags none
