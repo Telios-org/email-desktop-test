@@ -1,0 +1,54 @@
+name: Desktop App Build and Publish
+
+on: push
+
+jobs:
+  set_version:
+    runs-on: ubuntu-latest
+    container:
+      image: registry.gitlab.com/telios2/telios-devops/ansible/prd:latest
+      credentials:
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v1
+        with:
+          submodules: true
+
+      - name: set version
+        shell: bash
+        run: |
+          if [ "${{ github.ref }}" == "refs/heads/beta" ]
+          then
+            CHANNEL="-beta"
+          fi
+          echo "${{ github.run_number }}${CHANNEL}"
+          sed -i "s/\(.version.:..[0-9]*.[0-9]*.\)[0-9]*/\1${{ github.run_number }}${CHANNEL}/g" package.json
+          sed -i "s/\(.version.:..[0-9]*.[0-9]*.\)[0-9]*/\1${{ github.run_number }}${CHANNEL}/g" app/package.json
+          cat package.json | grep "version.:"
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: package_json
+          path: |
+            package.json
+            app/package.json
+
+  build-osx:
+    uses: telios-org/email-desktop-test/.github/workflows/build.yml
+    with:
+      build_type: mac
+      os_type: macos-latest
+
+  build-windows:
+    uses: telios-org/email-desktop-test/.github/workflows/build.yml
+    with:
+      build_type: win
+      os_type: windows-latest
+
+  build-linux:
+    uses: telios-org/email-desktop-test/.github/workflows/build.yml
+    with:
+      build_type: linux
+      os_type: ubuntu-latest
