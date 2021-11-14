@@ -5,7 +5,7 @@ on: push
 jobs:
   build:
     runs-on: ${{ matrix.os }}
-
+#TODO Don't use the matrix build so that succsful builds can be published without waiting, instead make two additional files for common code of the jobs and make 6 separate jobs
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
@@ -21,21 +21,11 @@ jobs:
         with:
           node-version: 16
 
-      - name: Yarn install and build
-        shell: bash
-        run: |
-          yarn install
-#          yarn build
-
+#TODO will periodically fail to build, try to cache the node_modules / binaries to avoid recompiles
       - name: Build/release Electron app
         uses: samuelmeuli/action-electron-builder@v1
         with:
-          # GitHub token, automatically provided to the action
-          # (No need to define this secret in the repo settings)
           github_token: ${{ secrets.github_token }}
-
-          # If the commit is tagged with a version (e.g. "v1.0.0"),
-          # release the app after building
           release: false
 
       - uses: actions/upload-artifact@v2
