@@ -66,7 +66,12 @@ jobs:
           docker run -t -v ${PWD}:${PWD} -w ${PWD} --entrypoint /bin/bash ${{ env.REGISTRY }}/${{ env.DOCKER_IMAGE }} -c "ls -la"
 
   publish:
-    runs-on: ubuntu-latest
+    container:
+      image: ${{ env.REGISTRY }}/${{ env.DOCKER_IMAGE }}
+      credentials:
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+
     needs: build
     env:
       platform: ${{ matrix.os }}
@@ -81,16 +86,19 @@ jobs:
           name: ${{ matrix.os }}
           path: release/
 
-      - name: Log into registry ${{ env.REGISTRY }}
-        uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ secrets.REGISTRY_USERNAME }}
-          password: ${{ secrets.REGISTRY_PASSWORD }}
+#      - name: Log into registry ${{ env.REGISTRY }}
+#        uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
+#        with:
+#          registry: ${{ env.REGISTRY }}
+#          username: ${{ secrets.REGISTRY_USERNAME }}
+#          password: ${{ secrets.REGISTRY_PASSWORD }}
 
-      - name: get ansible
+      - name: ansible publish
         shell: bash
         run: |
           ls -la
-          docker pull ${{ env.REGISTRY }}/${{ env.DOCKER_IMAGE }}
-          docker run -v ${PWD}:${PWD} -w ${PWD} --entrypoint ansible-playbook ${{ env.REGISTRY }}/${{ env.DOCKER_IMAGE }} playbooks/site.yml --tags none
+          ansible-playbook playbooks/site.yml --tags none
+
+
+      #docker pull ${{ env.REGISTRY }}/${{ env.DOCKER_IMAGE }}
+      #docker run -v ${PWD}:${PWD} -w ${PWD} --entrypoint ansible-playbook ${{ env.REGISTRY }}/${{ env.DOCKER_IMAGE }} playbooks/site.yml --tags none
