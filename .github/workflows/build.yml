@@ -11,6 +11,11 @@ jobs:
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
     steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v1
+        with:
+          submodules: true
+
       - name: set version
         shell: bash
         run: |
@@ -32,6 +37,7 @@ jobs:
 
   build:
     runs-on: ${{ matrix.os }}
+    needs: set_version
 #TODO Don't use the matrix build so that succsful builds can be published without waiting, instead make two additional files for common code of the jobs and make 6 separate jobs
     strategy:
       matrix:
